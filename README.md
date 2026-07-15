@@ -32,6 +32,12 @@ npm run lint
 npm test
 ```
 
+## Deploy to GitHub Pages
+
+The repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`. Every push to `main` builds a fully static Next.js export and publishes the `out/` directory to GitHub Pages. The workflow also supports manual runs from the Actions tab.
+
+The repository’s Pages source must be set to **GitHub Actions**. No hosting secrets or runtime services are required.
+
 ## Privacy and architecture
 
 Resume data and the current job description are saved only in browser local storage. The MVP has no database, upload, account, or required external API, so it can be statically hosted.
