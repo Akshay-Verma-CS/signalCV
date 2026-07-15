@@ -1,5 +1,9 @@
 # SignalCV
 
+[![SignalCV — Build a resume that earns the interview](./public/og.png)](https://akshay-verma-cs.github.io/signalCV/)
+
+[Open the live app](https://akshay-verma-cs.github.io/signalCV/) · [View deployment workflow](./.github/workflows/deploy-pages.yml)
+
 SignalCV is a local-first resume builder for software engineers from SDE I through Staff. It combines structured resume authoring, live ATS-readiness guidance, job-description matching, seven printable templates, and PDF/DOCX exports in a statically hostable web app.
 
 ## MVP features
