@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-type TemplateId = "classic" | "modern" | "compact";
+type TemplateId = "classic" | "modern" | "compact" | "harvard" | "minimal" | "swiss" | "executive";
 type TargetLevel = "SDE I" | "SDE II" | "Senior" | "Staff";
 type EditorTab = "build" | "target";
 
@@ -179,6 +179,10 @@ const templateOptions: { id: TemplateId; name: string; note: string }[] = [
   { id: "classic", name: "Classic ATS", note: "Best parse rate" },
   { id: "modern", name: "Modern", note: "Polished & clear" },
   { id: "compact", name: "Compact Tech", note: "More per page" },
+  { id: "harvard", name: "Harvard", note: "Traditional & trusted" },
+  { id: "minimal", name: "Minimal", note: "Quiet confidence" },
+  { id: "swiss", name: "Swiss", note: "Crisp & structured" },
+  { id: "executive", name: "Executive", note: "Senior leadership" },
 ];
 
 const levelGuidance: Record<TargetLevel, { focus: string; keywords: string[] }> = {

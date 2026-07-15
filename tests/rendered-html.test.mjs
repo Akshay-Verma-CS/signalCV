@@ -10,6 +10,9 @@ test("exports the complete SignalCV app as static HTML", async () => {
   assert.match(html, /ATS readiness/);
   assert.match(html, /Export PDF/);
   assert.match(html, /Resume Builder for Software Engineers/);
+  for (const template of ["Classic ATS", "Modern", "Compact Tech", "Harvard", "Minimal", "Swiss", "Executive"]) {
+    assert.match(html, new RegExp(template));
+  }
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 
   await Promise.all([

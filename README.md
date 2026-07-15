@@ -1,10 +1,10 @@
 # SignalCV
 
-SignalCV is a local-first resume builder for software engineers from SDE I through Staff. It combines structured resume authoring, live ATS-readiness guidance, job-description matching, three printable templates, and PDF/DOCX exports in a statically hostable web app.
+SignalCV is a local-first resume builder for software engineers from SDE I through Staff. It combines structured resume authoring, live ATS-readiness guidance, job-description matching, seven printable templates, and PDF/DOCX exports in a statically hostable web app.
 
 ## MVP features
 
-- Classic ATS, Modern, and Compact Tech templates
+- Classic ATS, Modern, Compact Tech, Harvard, Minimal, Swiss, and Executive templates
 - Structured profile, summary, experience, skills, projects, and education editors
 - Optional sections for open source, certifications, awards, publications, patents, speaking, leadership, and volunteering
 - Explainable ATS-readiness score that updates after every edit
