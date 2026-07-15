@@ -22,11 +22,12 @@ import {
   WandSparkles,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 type TemplateId = "classic" | "modern" | "compact" | "harvard" | "minimal" | "swiss" | "executive";
 type TargetLevel = "SDE I" | "SDE II" | "Senior" | "Staff";
 type EditorTab = "build" | "target";
+type MobileView = "build" | "preview" | "score" | "target";
 
 type Experience = {
   id: string;
@@ -467,6 +468,7 @@ function EditorSection({
 }
 
 function ResumePreview({ data }: { data: ResumeData }) {
+  const [previewScale, setPreviewScale] = useState(1);
   const contacts = [
     data.basics.email,
     data.basics.phone,
@@ -477,8 +479,23 @@ function ResumePreview({ data }: { data: ResumeData }) {
   ].filter(Boolean);
   const skills = data.skills.split(",").map((skill) => skill.trim()).filter(Boolean);
 
+  useEffect(() => {
+    const updatePreviewScale = () => {
+      const availableWidth = window.innerWidth - 28;
+      setPreviewScale(window.innerWidth <= 860 ? Math.min(1, availableWidth / 720) : 1);
+    };
+
+    updatePreviewScale();
+    window.addEventListener("resize", updatePreviewScale);
+    return () => window.removeEventListener("resize", updatePreviewScale);
+  }, []);
+
   return (
-    <article className={`resume-sheet template-${data.template}`} id="resume-document">
+    <article
+      className={`resume-sheet template-${data.template}`}
+      id="resume-document"
+      style={{ "--resume-scale": previewScale } as CSSProperties}
+    >
       <header className="resume-header">
         <p className="resume-eyebrow">{data.basics.headline}</p>
         <h1>{data.basics.name}</h1>
@@ -583,6 +600,7 @@ function ResumePreview({ data }: { data: ResumeData }) {
 export default function Home() {
   const [resume, setResume] = useState<ResumeData>(starterResume);
   const [tab, setTab] = useState<EditorTab>("build");
+  const [mobileView, setMobileView] = useState<MobileView>("build");
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({ profile: true });
   const [addSectionOpen, setAddSectionOpen] = useState(false);
   const [jobDescription, setJobDescription] = useState("");
@@ -653,6 +671,13 @@ export default function Home() {
 
   const toggleSection = (key: string) => {
     setOpenSections((current) => ({ ...current, [key]: !current[key] }));
+  };
+
+  const switchMobileView = (view: MobileView) => {
+    setMobileView(view);
+    if (view === "build") setTab("build");
+    if (view === "target") setTab("target");
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
   };
 
   const addExtraSection = (title: string) => {
@@ -834,7 +859,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="workspace">
+      <div className={`workspace mobile-view-${mobileView}`}>
         <aside className="editor-panel">
           <div className="mode-tabs" role="tablist" aria-label="Resume tools">
             <button
@@ -1197,6 +1222,25 @@ export default function Home() {
           </div>
         </aside>
       </div>
+
+      <nav className="mobile-nav" aria-label="Mobile resume tools">
+        <button type="button" className={mobileView === "build" ? "active" : ""} onClick={() => switchMobileView("build")}>
+          <WandSparkles size={19} />
+          <span>Build</span>
+        </button>
+        <button type="button" className={mobileView === "preview" ? "active" : ""} onClick={() => switchMobileView("preview")}>
+          <FileText size={19} />
+          <span>Preview</span>
+        </button>
+        <button type="button" className={mobileView === "score" ? "active" : ""} onClick={() => switchMobileView("score")}>
+          <BarChart3 size={19} />
+          <span>ATS Score</span>
+        </button>
+        <button type="button" className={mobileView === "target" ? "active" : ""} onClick={() => switchMobileView("target")}>
+          <Target size={19} />
+          <span>Match</span>
+        </button>
+      </nav>
 
       {addSectionOpen && (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setAddSectionOpen(false)}>
