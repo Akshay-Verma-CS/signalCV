@@ -26,6 +26,7 @@ body {
   color: var(--ink);
   font-family: var(--font-geist-sans);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 button, input, textarea, select { font: inherit; }
@@ -78,21 +79,38 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .button-primary:hover { background: #fffaf0; transform: translateY(-1px); }
 
 .workspace {
-  height: calc(100vh - 72px);
+  min-height: calc(100vh - 72px);
   display: grid;
   grid-template-columns: 370px minmax(660px, 1fr) 310px;
-  overflow: hidden;
+  align-items: start;
+  overflow: visible;
 }
 
-.editor-panel, .insights-panel { min-width: 0; background: var(--panel); }
+.editor-panel, .insights-panel {
+  min-width: 0;
+  height: calc(100vh - 72px);
+  position: sticky;
+  top: 72px;
+  align-self: start;
+  background: var(--panel);
+}
 .editor-panel { border-right: 1px solid var(--line); display: flex; flex-direction: column; }
-.insights-panel { border-left: 1px solid var(--line); }
+.insights-panel { border-left: 1px solid var(--line); display: flex; flex-direction: column; }
 
 .mode-tabs { padding: 14px 16px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; border-bottom: 1px solid var(--line-soft); background: #fff; }
 .mode-tabs button { border: 0; background: transparent; border-radius: 8px; height: 39px; display: flex; gap: 7px; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; font-weight: 650; cursor: pointer; }
 .mode-tabs button.active { color: var(--green-dark); background: var(--green-soft); box-shadow: inset 0 0 0 1px rgba(47,109,101,.11); }
 
-.editor-scroll, .insights-scroll { overflow: auto; height: 100%; scrollbar-width: thin; scrollbar-color: #c6d0cb transparent; }
+.editor-scroll, .insights-scroll {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #c6d0cb transparent;
+}
 .editor-scroll { padding-bottom: 90px; }
 .insights-scroll { padding: 18px 16px 80px; }
 
@@ -166,7 +184,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .target-empty strong { color: #62726f; font-size: 11px; margin-top: 9px; }
 .target-empty span { font-size: 9px; margin-top: 5px; line-height: 1.4; }
 
-.preview-panel { min-width: 0; background: #eaeae4; display: flex; flex-direction: column; }
+.preview-panel { min-width: 0; min-height: calc(100vh - 72px); background: #eaeae4; display: flex; flex-direction: column; }
 .preview-toolbar { min-height: 86px; padding: 11px 23px; background: #f7f8f5; border-bottom: 1px solid #d9dfdb; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .toolbar-label { display: block; font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; color: #7a8986; margin-bottom: 6px; }
 .template-switcher { display: flex; gap: 6px; }
@@ -186,7 +204,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .thumb-compact::before { left: 0; width: 8px; height: 36px; top: 0; background: #dbe7e2; }
 .thumb-compact::after { left: 11px; top: 6px; }
 .page-indicator { color: #8b9693; font: 550 9px/1 var(--font-geist-mono), monospace; white-space: nowrap; }
-.paper-stage { flex: 1; overflow: auto; padding: 32px max(24px, calc((100% - 720px) / 2)); }
+.paper-stage { flex: 1 0 auto; overflow: visible; padding: 32px max(24px, calc((100% - 720px) / 2)); }
 
 .resume-sheet { width: 720px; min-height: 1018px; margin: 0 auto; background: var(--paper); box-shadow: 0 9px 32px rgba(34,51,48,.14); color: #202827; font-family: Arial, Helvetica, sans-serif; font-size: 9.6px; line-height: 1.45; }
 .resume-header { padding: 42px 46px 20px; text-align: center; }
@@ -306,7 +324,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
   .button { padding: 0 10px; }
   .button-ghost { display: none; }
   .workspace { height: auto; min-height: calc(100vh - 66px); display: block; overflow: visible; }
-  .editor-panel { border: 0; }
+  .editor-panel { height: auto; position: static; border: 0; }
   .editor-scroll { max-height: 62vh; border-bottom: 1px solid var(--line); }
   .preview-panel { min-height: 700px; }
   .preview-toolbar { overflow-x: auto; align-items: flex-end; }
